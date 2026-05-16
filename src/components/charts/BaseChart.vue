@@ -9,6 +9,7 @@ import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 const props = defineProps<{ option: Record<string, unknown> }>();
 const chartElement = ref<HTMLDivElement | null>(null);
 let chart: echarts.ECharts | null = null;
+let resizeObserver: ResizeObserver | null = null;
 
 function render() {
   if (!chartElement.value) return;
@@ -22,6 +23,10 @@ function resize() {
 
 onMounted(() => {
   render();
+  if (chartElement.value && "ResizeObserver" in window) {
+    resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(chartElement.value);
+  }
   window.addEventListener("resize", resize);
 });
 
@@ -29,6 +34,7 @@ watch(() => props.option, render, { deep: true });
 
 onBeforeUnmount(() => {
   window.removeEventListener("resize", resize);
+  resizeObserver?.disconnect();
   chart?.dispose();
 });
 </script>

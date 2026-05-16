@@ -10,10 +10,21 @@
   box-sizing: border-box;
 }
 
+html {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   min-width: 0;
+  width: 100%;
   overflow-x: hidden;
+}
+
+#app {
+  min-width: 0;
+  width: 100%;
 }
 
 button,
@@ -38,8 +49,10 @@ a {
 .app-shell {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 240px minmax(0, 1fr);
   background: #eef2f6;
+  width: 100%;
+  overflow-x: clip;
 }
 
 .dark {
@@ -48,15 +61,17 @@ a {
 }
 
 .sidebar {
-  padding: 24px;
+  padding: 22px 18px;
   background: #ffffff;
   border-right: 1px solid #dbe3ea;
   position: sticky;
   top: 0;
   height: 100vh;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
+  overflow-y: auto;
 }
 
 .dark .sidebar,
@@ -94,13 +109,20 @@ a {
   gap: 12px;
   color: inherit;
   text-decoration: none;
-  font-size: 20px;
+  font-size: clamp(17px, 1.3vw, 20px);
   font-weight: 800;
+  min-width: 0;
 }
 
 .brand img {
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+}
+
+.brand span {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .brand-center {
@@ -117,10 +139,12 @@ a {
 .sidebar a {
   color: #475569;
   text-decoration: none;
-  padding: 11px 14px;
+  padding: 10px 12px;
   border-radius: 8px;
   font-weight: 700;
   font-size: 14px;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .dark .sidebar a {
@@ -141,11 +165,14 @@ a {
   margin-top: auto;
   display: grid;
   gap: 8px;
+  min-width: 0;
 }
 
 .sidebar-user-name {
   font-weight: 700;
   margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .sidebar-overlay {
@@ -158,10 +185,18 @@ a {
 
 .main-panel {
   min-width: 0;
-  padding: 24px;
+  width: 100%;
+  max-width: 1680px;
+  padding: clamp(16px, 2vw, 28px);
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: clamp(14px, 1.5vw, 20px);
+  overflow-x: clip;
+}
+
+.main-panel > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .topbar {
@@ -172,7 +207,8 @@ a {
   background: #ffffff;
   border: 1px solid #dbe3ea;
   border-radius: 8px;
-  padding: 16px 20px;
+  padding: clamp(14px, 1.6vw, 20px);
+  min-width: 0;
 }
 
 .topbar-titles {
@@ -200,10 +236,24 @@ a {
   overflow-wrap: anywhere;
 }
 
+.topbar h1,
+.page-header h1 {
+  font-size: clamp(22px, 2.2vw, 34px);
+  line-height: 1.12;
+}
+
+.section-heading h2 {
+  font-size: clamp(17px, 1.45vw, 22px);
+  line-height: 1.2;
+}
+
 .topbar-actions {
   display: flex;
   gap: 10px;
   align-items: center;
+  min-width: 0;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
 }
 
 .theme-toggle,
@@ -320,6 +370,8 @@ a {
   border: 1px solid #dbe3ea;
   border-radius: 999px;
   background: #ffffff;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .avatar {
@@ -339,20 +391,31 @@ a {
   flex-direction: column;
   gap: 2px;
   line-height: 1.1;
+  min-width: 0;
 }
 
 .user-meta strong {
   font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dashboard-page {
   display: grid;
-  gap: 18px;
+  gap: clamp(14px, 1.5vw, 20px);
+  min-width: 0;
 }
 
 .page {
   display: grid;
-  gap: 18px;
+  gap: clamp(14px, 1.5vw, 20px);
+  min-width: 0;
+}
+
+.page > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .page-header {
@@ -361,28 +424,37 @@ a {
   gap: 12px;
   align-items: flex-end;
   flex-wrap: wrap;
+  min-width: 0;
+}
+
+.page-header > div:first-child {
+  min-width: 0;
+  flex: 1 1 280px;
 }
 
 .page-header-actions {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  justify-content: flex-end;
+  min-width: 0;
 }
 
 .filter-panel,
 .filter-bar {
   display: grid;
-  grid-template-columns: repeat(5, minmax(140px, 1fr));
+  grid-template-columns: repeat(4, minmax(160px, 1fr)) minmax(120px, auto);
   gap: 12px;
   background: #ffffff;
   border: 1px solid #dbe3ea;
   border-radius: 8px;
-  padding: 16px;
+  padding: clamp(14px, 1.4vw, 18px);
   align-items: end;
+  min-width: 0;
 }
 
 .filter-bar {
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
 }
 
 .filter-panel label,
@@ -393,6 +465,7 @@ form label {
   color: #64748b;
   font-size: 13px;
   font-weight: 700;
+  min-width: 0;
 }
 
 .filter-panel select,
@@ -428,18 +501,21 @@ form textarea {
 form textarea {
   resize: vertical;
   min-height: 80px;
+  min-width: 0;
 }
 
 .grid-2 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+  min-width: 0;
 }
 
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
   gap: 14px;
+  min-width: 0;
 }
 
 .kpi-card,
@@ -453,20 +529,51 @@ form textarea {
   background: #ffffff;
   border: 1px solid #dbe3ea;
   border-radius: 8px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .kpi-card {
-  padding: 18px;
+  padding: clamp(15px, 1.4vw, 20px);
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
+  flex-wrap: wrap;
   min-width: 0;
+  overflow: hidden;
+}
+
+.kpi-card-main {
+  min-width: 0;
+  flex: 1 1 150px;
 }
 
 .kpi-card strong {
   display: block;
   margin-top: 6px;
-  font-size: 22px;
+  font-size: clamp(20px, 2vw, 30px);
+  line-height: 1.16;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.kpi-trend {
+  margin: 0;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #ecfdf5;
+  line-height: 1.2;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  flex: 0 1 auto;
+  max-width: 100%;
+}
+
+.kpi-trend.negative {
+  background: #fef2f2;
 }
 
 .positive {
@@ -483,11 +590,14 @@ form textarea {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
+  min-width: 0;
 }
 
 .chart-panel {
-  padding: 18px;
+  padding: clamp(15px, 1.4vw, 20px);
   min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -502,26 +612,43 @@ form textarea {
   justify-content: space-between;
   gap: 12px;
   align-items: center;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.section-heading > * {
+  min-width: 0;
 }
 
 .chart {
   width: 100%;
-  height: 320px;
+  max-width: 100%;
+  min-width: 0;
+  height: clamp(250px, 26vw, 340px);
 }
 
 .table-panel {
-  padding: 18px;
+  padding: clamp(14px, 1.4vw, 18px);
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.data-table {
+  overflow: hidden;
 }
 
 .table-wrap {
   overflow-x: auto;
   max-width: 100%;
+  width: 100%;
+  min-width: 0;
   -webkit-overflow-scrolling: touch;
 }
 
 table {
   width: 100%;
-  min-width: 680px;
+  min-width: min(680px, 100vw);
   border-collapse: collapse;
 }
 
@@ -531,6 +658,12 @@ td {
   border-bottom: 1px solid #e2e8f0;
   text-align: left;
   white-space: nowrap;
+  max-width: 280px;
+}
+
+td {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 th {
@@ -546,13 +679,15 @@ th {
 }
 
 .actions-col {
-  width: 200px;
+  width: 1%;
+  min-width: 180px;
 }
 
 .actions-cell {
   display: flex;
   gap: 6px;
   white-space: normal;
+  min-width: 0;
 }
 
 .actions-group {
@@ -616,17 +751,19 @@ th {
 
 .management-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
   gap: 16px;
+  min-width: 0;
 }
 
 .management-card {
-  padding: 20px;
+  padding: clamp(16px, 1.5vw, 20px);
   text-decoration: none;
   color: inherit;
   display: grid;
   gap: 8px;
   transition: transform 0.15s ease, border-color 0.15s ease;
+  min-width: 0;
 }
 
 .management-card:hover {
@@ -704,6 +841,7 @@ th {
   display: grid;
   gap: 0;
   border: 1px solid #dbe3ea;
+  min-width: 0;
 }
 
 .modal-sm {
@@ -713,14 +851,18 @@ th {
 .modal-header {
   display: flex;
   justify-content: space-between;
+  gap: 12px;
   align-items: center;
   padding: 16px 20px;
   border-bottom: 1px solid #e2e8f0;
+  min-width: 0;
 }
 
 .modal-header h3 {
   margin: 0;
-  font-size: 18px;
+  font-size: clamp(17px, 1.6vw, 20px);
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .modal-close {
@@ -735,6 +877,7 @@ th {
   padding: 20px;
   display: grid;
   gap: 12px;
+  min-width: 0;
 }
 
 .modal-footer {
@@ -754,18 +897,24 @@ th {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-width: 0;
 }
 
 .item-row {
   display: grid;
-  grid-template-columns: minmax(180px, 2fr) minmax(88px, 1fr) auto auto;
+  grid-template-columns: minmax(0, 2fr) minmax(88px, 0.8fr) minmax(96px, auto) auto;
   gap: 8px;
   align-items: center;
+  min-width: 0;
 }
 
 .item-subtotal {
   font-weight: 700;
   color: #0f766e;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .items-total {
@@ -777,10 +926,12 @@ th {
 .insight-card {
   border-left: 4px solid #0f766e;
   border-top: 1px solid #e2e8f0;
-  padding: 14px 16px;
+  padding: clamp(13px, 1.3vw, 16px);
   border-radius: 8px;
   display: grid;
   gap: 8px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .insight-card.tone-warning {
@@ -849,11 +1000,13 @@ th {
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .overall-insight {
   display: grid;
   gap: 12px;
+  min-width: 0;
 }
 
 .auth-shell {
@@ -861,17 +1014,19 @@ th {
   display: grid;
   grid-template-columns: 1fr 1fr;
   background: #eef2f6;
+  overflow-x: hidden;
 }
 
 .auth-card {
   background: #ffffff;
   margin: auto;
-  padding: 32px;
+  padding: clamp(22px, 4vw, 32px);
   width: min(440px, calc(100% - 32px));
   border-radius: 12px;
   border: 1px solid #dbe3ea;
   display: grid;
   gap: 14px;
+  min-width: 0;
 }
 
 .auth-form {
@@ -881,6 +1036,9 @@ th {
 
 .auth-form h1 {
   margin: 0;
+  font-size: clamp(28px, 5vw, 40px);
+  line-height: 1.1;
+  overflow-wrap: anywhere;
 }
 
 .auth-subtitle {
@@ -923,11 +1081,12 @@ th {
 .auth-side {
   background: linear-gradient(160deg, #0f766e, #115e59);
   color: #ffffff;
-  padding: 48px;
+  padding: clamp(32px, 4vw, 56px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 16px;
+  min-width: 0;
 }
 
 .auth-side h2 {
@@ -955,19 +1114,20 @@ th {
 .centered-actions {
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
-@media (max-width: 1180px) {
-  .kpi-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
+@media (max-width: 1200px) {
   .filter-panel {
-    grid-template-columns: repeat(3, minmax(140px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .filter-panel button {
+    grid-column: 1 / -1;
   }
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1024px) {
   .app-shell {
     grid-template-columns: 1fr;
   }
@@ -976,10 +1136,11 @@ th {
     position: fixed;
     top: 0;
     left: 0;
-    width: 260px;
+    width: min(280px, calc(100vw - 32px));
     z-index: 50;
     transform: translateX(-100%);
     transition: transform 0.2s ease;
+    box-shadow: none;
   }
 
   .sidebar.open {
@@ -1016,14 +1177,14 @@ th {
   }
 }
 
-@media (max-width: 720px) {
-  .kpi-grid {
-    grid-template-columns: 1fr;
-  }
-
+@media (max-width: 768px) {
   .filter-panel,
   .filter-bar {
     grid-template-columns: 1fr;
+  }
+
+  .filter-panel button {
+    width: 100%;
   }
 
   .grid-2 {
@@ -1037,7 +1198,7 @@ th {
   }
 
   .topbar h1 {
-    font-size: 20px;
+    font-size: clamp(20px, 5vw, 26px);
     line-height: 1.2;
   }
 
@@ -1082,6 +1243,11 @@ th {
   .page-header-actions,
   .page-header-actions .btn-primary {
     width: 100%;
+    justify-content: stretch;
+  }
+
+  .page-header-actions > * {
+    flex: 1 1 100%;
   }
 
   .section-heading {
@@ -1115,7 +1281,18 @@ th {
   }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 640px) {
+  .actions-group {
+    width: max-content;
+  }
+
+  .link {
+    min-height: 38px;
+    padding: 8px 9px;
+  }
+}
+
+@media (max-width: 480px) {
   .main-panel {
     padding: 12px;
     gap: 14px;
@@ -1141,8 +1318,12 @@ th {
     gap: 10px;
   }
 
+  .kpi-card-main {
+    flex-basis: 100%;
+  }
+
   .kpi-card strong {
-    font-size: 20px;
+    font-size: clamp(19px, 6vw, 24px);
     line-height: 1.25;
   }
 
@@ -1160,6 +1341,10 @@ th {
 }
 
 @media (max-width: 360px) {
+  .main-panel {
+    padding: 10px;
+  }
+
   .topbar-actions {
     align-items: stretch;
     flex-direction: column;

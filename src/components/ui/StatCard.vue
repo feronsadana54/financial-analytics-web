@@ -1,11 +1,11 @@
 <template>
   <article class="kpi-card">
-    <div>
+    <div class="kpi-card-main">
       <span>{{ label }}</span>
       <strong>{{ value }}</strong>
       <p v-if="subtitle" class="kpi-subtitle">{{ subtitle }}</p>
     </div>
-    <p v-if="trend !== undefined" :class="trendClass">{{ trendLabel }}</p>
+    <p v-if="trend !== undefined" class="kpi-trend" :class="trendClass">{{ trendLabel }}</p>
   </article>
 </template>
 
