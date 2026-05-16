@@ -14,7 +14,7 @@
               <div class="table-empty">{{ emptyMessage }}</div>
             </td>
           </tr>
-          <tr v-for="(row, index) in rows" :key="rowKey ? row[rowKey] : index">
+          <tr v-for="(row, index) in rows" :key="getRowKey(row, index)">
             <td v-for="column in columns" :key="column.key" :data-label="column.label">
               <slot :name="`cell-${column.key}`" :row="row" :value="row[column.key]">{{ formatCell(row, column) }}</slot>
             </td>
@@ -36,7 +36,7 @@ type Column = {
   formatter?: (value: unknown, row: T) => string;
 };
 
-withDefaults(defineProps<{ columns: Column[]; rows: T[]; rowKey?: string; emptyMessage?: string }>(), {
+const props = withDefaults(defineProps<{ columns: Column[]; rows: T[]; rowKey?: string; emptyMessage?: string }>(), {
   emptyMessage: "No records found"
 });
 
@@ -45,5 +45,12 @@ function formatCell(row: T, column: Column) {
   if (column.formatter) return column.formatter(value, row);
   if (value === null || value === undefined) return "—";
   return String(value);
+}
+
+function getRowKey(row: T, index: number): string | number {
+  if (!props.rowKey) return index;
+  const value = row[props.rowKey];
+  if (typeof value === "string" || typeof value === "number") return value;
+  return index;
 }
 </script>

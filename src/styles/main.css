@@ -12,6 +12,8 @@
 
 body {
   margin: 0;
+  min-width: 0;
+  overflow-x: hidden;
 }
 
 button,
@@ -19,6 +21,14 @@ select,
 input,
 textarea {
   font: inherit;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  max-width: 100%;
 }
 
 a {
@@ -167,6 +177,7 @@ a {
 
 .topbar-titles {
   min-width: 0;
+  flex: 1 1 auto;
 }
 
 .topbar p,
@@ -186,6 +197,7 @@ a {
 .state-block h2,
 .page-header h1 {
   margin: 4px 0 0;
+  overflow-wrap: anywhere;
 }
 
 .topbar-actions {
@@ -207,6 +219,7 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-height: 40px;
 }
 
 .btn-primary:hover {
@@ -227,6 +240,7 @@ a {
   padding: 9px 14px;
   font-weight: 700;
   cursor: pointer;
+  min-height: 40px;
 }
 
 .dark .btn-secondary {
@@ -243,6 +257,7 @@ a {
   padding: 10px 14px;
   font-weight: 700;
   cursor: pointer;
+  min-height: 40px;
 }
 
 .btn-danger:disabled,
@@ -258,11 +273,12 @@ a {
 .link {
   background: transparent;
   border: 0;
-  padding: 4px 6px;
+  padding: 7px 8px;
   color: #0f766e;
   cursor: pointer;
   font-weight: 700;
   font-size: 13px;
+  min-height: 34px;
 }
 
 .link:hover {
@@ -391,6 +407,22 @@ form textarea {
   padding: 10px 12px;
   color: #0f172a;
   background: #ffffff;
+  min-height: 42px;
+}
+
+.filter-panel button {
+  border: 0;
+  background: #0f766e;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 10px 14px;
+  min-height: 42px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.filter-panel button:hover {
+  background: #115e59;
 }
 
 form textarea {
@@ -428,6 +460,7 @@ form textarea {
   display: flex;
   justify-content: space-between;
   gap: 16px;
+  min-width: 0;
 }
 
 .kpi-card strong {
@@ -482,10 +515,13 @@ form textarea {
 
 .table-wrap {
   overflow-x: auto;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 table {
   width: 100%;
+  min-width: 680px;
   border-collapse: collapse;
 }
 
@@ -516,6 +552,7 @@ th {
 .actions-cell {
   display: flex;
   gap: 6px;
+  white-space: normal;
 }
 
 .actions-group {
@@ -721,7 +758,7 @@ th {
 
 .item-row {
   display: grid;
-  grid-template-columns: 2fr 1fr auto auto;
+  grid-template-columns: minmax(180px, 2fr) minmax(88px, 1fr) auto auto;
   gap: 8px;
   align-items: center;
 }
@@ -830,7 +867,7 @@ th {
   background: #ffffff;
   margin: auto;
   padding: 32px;
-  width: min(440px, 100%);
+  width: min(440px, calc(100% - 32px));
   border-radius: 12px;
   border: 1px solid #dbe3ea;
   display: grid;
@@ -995,14 +1032,27 @@ th {
 
   .topbar {
     flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 14px;
   }
 
   .topbar h1 {
-    font-size: 18px;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  .topbar-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .topbar-titles {
+    flex: 1 1 calc(100% - 56px);
   }
 
   .user-chip {
     padding: 4px 8px;
+    min-width: 0;
   }
 
   .user-meta strong {
@@ -1010,11 +1060,12 @@ th {
   }
 
   .item-row {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    align-items: stretch;
   }
 
   .chart {
-    height: 260px;
+    height: 280px;
   }
 
   th,
@@ -1025,5 +1076,109 @@ th {
 
   .page-header {
     align-items: flex-start;
+  }
+
+  .page-header > div,
+  .page-header-actions,
+  .page-header-actions .btn-primary {
+    width: 100%;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .modal-backdrop {
+    align-items: flex-start;
+    padding: 12px;
+  }
+
+  .modal {
+    width: 100%;
+    max-height: calc(100dvh - 24px);
+  }
+
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+  }
+
+  .modal-footer button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 430px) {
+  .main-panel {
+    padding: 12px;
+    gap: 14px;
+  }
+
+  .sidebar {
+    width: min(280px, calc(100vw - 32px));
+    padding: 20px;
+  }
+
+  .filter-panel,
+  .filter-bar,
+  .table-panel,
+  .chart-panel,
+  .kpi-card,
+  .state-block,
+  .management-card,
+  .auth-card {
+    padding: 14px;
+  }
+
+  .kpi-card {
+    gap: 10px;
+  }
+
+  .kpi-card strong {
+    font-size: 20px;
+    line-height: 1.25;
+  }
+
+  .chart {
+    height: 250px;
+  }
+
+  table {
+    min-width: 620px;
+  }
+
+  .auth-card {
+    width: calc(100% - 24px);
+  }
+}
+
+@media (max-width: 360px) {
+  .topbar-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .user-chip,
+  .theme-toggle {
+    width: 100%;
+  }
+
+  .user-chip {
+    justify-content: flex-start;
+  }
+
+  .chart {
+    height: 230px;
+  }
+
+  .demo-accounts {
+    font-size: 12px;
   }
 }
